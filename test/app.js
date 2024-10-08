@@ -1,7 +1,7 @@
 import { ClientConfig } from "../src/client/client";
 
-const protocolName = "Lorenzo Smart Contract";
-const coverId = 21000001;
+const protocolName = "Lombard Smart Contract";
+const coverId = 3;
 
 const client = new ClientConfig(protocolName, coverId);
 

@@ -55,6 +55,6 @@ export async function purchaseCover(id, value, period, fee) {
   const tx = await coverContract.purchaseCover(id, value, period, {
     value: ethers.parseEther(fee.toString()),
   });
-  const receipt = await tx.wait(1);
-  return receipt.transactionHash;
+  const receipt = await tx.wait();
+  return receipt.hash;
 }
