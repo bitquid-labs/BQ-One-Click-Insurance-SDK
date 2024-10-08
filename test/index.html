@@ -56,6 +56,10 @@
         border: 1px solid #ccc;
         border-radius: 8px;
       }
+      #coverFeeDisplay {
+        margin-top: 10px;
+        font-weight: bold;
+      }
     </style>
   </head>
   <body>
@@ -77,11 +81,17 @@
       <label for="coverPeriod">Cover Period (in days):</label>
       <input type="number" id="coverPeriod" value="30" />
     </div>
-    <div>
-      <label for="coverFee">Cover Fee (in ETH):</label>
-      <input type="number" id="coverFee" step="0.01" value="0.01" />
+    <div id="coverFeeDisplay">
+      <strong>Cover Fee:</strong> <span id="coverFee">0.00</span>
     </div>
     <button id="purchaseButton">Purchase Cover</button>
+
+    <h2>Mint bqBTC Tokens</h2>
+    <div>
+      <label for="bqbtcAmount">Amount of bqBTC to Mint:</label>
+      <input type="number" id="bqbtcAmount" step="0.01" />
+    </div>
+    <button id="mintBQBTCButton">Mint bqBTC</button>
 
     <div id="output"></div>
   </body>

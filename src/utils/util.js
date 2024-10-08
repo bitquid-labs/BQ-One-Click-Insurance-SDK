@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import * as dotenv from "dotenv";
 import insuranceAbi from "../../abis/InsuranceCover.json";
 
-const COVER_CONTRACT_ADDRESS = "0x7745631d88EC933397ec5852e7959196DA46Bb11";
+const COVER_CONTRACT_ADDRESS = "0xB102A937608Ae9177175964087e8fcD7B782FD3d";
 
 export async function connectWallet() {
   if (!window.ethereum) {
@@ -45,16 +45,37 @@ export async function getCoverInfo(id) {
   };
 }
 
-export async function purchaseCover(id, value, period, fee) {
+export async function purchaseCover(id, value, period) {
   const signer = await connectWallet();
   const coverContract = new ethers.Contract(
     COVER_CONTRACT_ADDRESS,
     insuranceAbi,
     signer
   );
-  const tx = await coverContract.purchaseCover(id, value, period, {
-    value: ethers.parseEther(fee.toString()),
-  });
+  const { weiValue: fee } = await calculateCoverFee(id, value, period);
+  console.log(fee);
+  const coverValue = ethers.parseEther(value.toString());
+  const tx = await coverContract.purchaseCover(id, coverValue, period, fee);
   const receipt = await tx.wait();
   return receipt.hash;
+}
+
+export async function calculateCoverFee(id, coverValue, period) {
+  try {
+    const coverInfo = await getCoverInfo(id);
+
+    if (!coverInfo || !coverInfo.cost) {
+      throw new Error("Invalid cover info or cost");
+    }
+
+    const fee = (coverInfo.cost / 100) * coverValue * (period / 365);
+
+    return {
+      numericFee: fee,
+      weiValue: ethers.parseEther(fee.toFixed(18)),
+    };
+  } catch (error) {
+    console.error("Error calculating cover fee:", error);
+    throw error;
+  }
 }

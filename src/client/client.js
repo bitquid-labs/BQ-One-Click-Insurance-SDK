@@ -1,4 +1,4 @@
-import { getCoverInfo, purchaseCover } from "../utils/util";
+import { getCoverInfo, purchaseCover, calculateCoverFee } from "../utils/util";
 
 export class ClientConfig {
   constructor(protocolName, coverId) {
@@ -16,7 +16,16 @@ export class ClientConfig {
     return await getCoverInfo(this.coverId);
   }
 
-  async userPurchaseCover(coverValue, coverPeriod, coverFee) {
-    return await purchaseCover(this.coverId, coverValue, coverPeriod, coverFee);
+  async userPurchaseCover(coverValue, coverPeriod) {
+    return await purchaseCover(this.coverId, coverValue, coverPeriod);
+  }
+
+  async calculateUserCoverFee(coverValue, coverPeriod) {
+    const { numericFee } = await calculateCoverFee(
+      this.coverId,
+      coverValue,
+      coverPeriod
+    );
+    return numericFee;
   }
 }
