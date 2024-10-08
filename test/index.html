@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Insurance Cover Test</title>
+    <script type="module" src="app.js" defer></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f4f4f9;
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+        color: #4a4e69;
+      }
+      h2 {
+        color: #22223b;
+      }
+      div {
+        margin-bottom: 15px;
+        padding: 10px;
+        background-color: #ffffff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      strong {
+        display: inline-block;
+        width: 150px;
+      }
+      input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #4a4e69;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #9a8c98;
+      }
+      #output {
+        margin-top: 20px;
+        padding: 10px;
+        background-color: #eaeaea;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Insurance Cover Test</h1>
+
+    <h2>Client Config</h2>
+    <div>
+      <strong>Protocol Name:</strong> <span id="protocolName"></span>
+      <br />
+      <strong>Cover ID:</strong> <span id="coverId"></span>
+    </div>
+
+    <h2>Purchase Cover</h2>
+    <div>
+      <label for="coverValue">Cover Value (in ETH):</label>
+      <input type="number" id="coverValue" step="0.01" value="100" />
+    </div>
+    <div>
+      <label for="coverPeriod">Cover Period (in days):</label>
+      <input type="number" id="coverPeriod" value="30" />
+    </div>
+    <div>
+      <label for="coverFee">Cover Fee (in ETH):</label>
+      <input type="number" id="coverFee" step="0.01" value="0.01" />
+    </div>
+    <button id="purchaseButton">Purchase Cover</button>
+
+    <div id="output"></div>
+  </body>
+</html>
