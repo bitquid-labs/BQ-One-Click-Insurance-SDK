@@ -1,6 +1,5 @@
 import { ethers } from "ethers";
-import * as dotenv from "dotenv";
-import insuranceAbi from "../../abis/InsuranceCover.json";
+import InsuranceAbi from "../abis/InsuranceCover.json";
 
 const COVER_CONTRACT_ADDRESS = "0xB102A937608Ae9177175964087e8fcD7B782FD3d";
 
@@ -22,11 +21,11 @@ export async function connectWallet() {
   }
 }
 
-export async function getCoverInfo(id) {
+export async function getCoverInfo(id: number) {
   const signer = await connectWallet();
   const coverContract = new ethers.Contract(
     COVER_CONTRACT_ADDRESS,
-    insuranceAbi,
+    InsuranceAbi,
     signer
   );
   const coverInfo = await coverContract.getCoverInfo(id);
@@ -45,11 +44,11 @@ export async function getCoverInfo(id) {
   };
 }
 
-export async function purchaseCover(id, value, period) {
+export async function purchaseCover(id: number, value: number, period: number): Promise<string> {
   const signer = await connectWallet();
   const coverContract = new ethers.Contract(
     COVER_CONTRACT_ADDRESS,
-    insuranceAbi,
+    InsuranceAbi,
     signer
   );
   const { weiValue: fee } = await calculateCoverFee(id, value, period);
@@ -60,7 +59,7 @@ export async function purchaseCover(id, value, period) {
   return receipt.hash;
 }
 
-export async function calculateCoverFee(id, coverValue, period) {
+export async function calculateCoverFee(id: number, coverValue: number, period: number) {
   try {
     const coverInfo = await getCoverInfo(id);
 

@@ -1,8 +1,12 @@
 {
-  "name": "bqjs",
+  "name": "bqlabsjs",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "module": "dist/index.m.js",
+  "unpkg": "dist/index.umd.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "rm -rf dist && microbundle --tsconfig tsconfig.json --no-sourcemap",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -14,6 +18,7 @@
     "ethers": "^6.13.3"
   },
   "devDependencies": {
-    "vite": "^5.4.8"
+    "vite": "^5.4.8",
+    "microbundle": "^0.15.1"
   }
 }
