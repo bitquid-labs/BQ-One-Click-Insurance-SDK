@@ -1,6 +1,6 @@
-# BQJS - JavaScript SDK for Insurance Cover
+# One Click Insurance SDK - JavaScript SDK for Insurance Cover
 
-BQJS is a Javascript library designed to simplify interactions with BQ insurance cover services. This library offers user-friendly functions for querying insurance cover details and executing cover purchases on third-party platforms, allowing seamless management of insurance covers without direct interaction with the BQ Insurance platform.
+One Click Insurance SDK is a Javascript library designed to simplify interactions with BQ insurance cover services. This library offers user-friendly functions for querying insurance cover details and executing cover purchases on third-party platforms, allowing seamless management of insurance covers without direct interaction with the BQ Insurance platform.
 
 ## Key Features
 
