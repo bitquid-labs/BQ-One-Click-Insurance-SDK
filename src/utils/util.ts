@@ -1,7 +1,17 @@
 import { ethers } from "ethers";
 import InsuranceAbi from "../abis/InsuranceCover.json";
 
-const COVER_CONTRACT_ADDRESS = "0xB102A937608Ae9177175964087e8fcD7B782FD3d";
+export enum CustomNetworks {
+  COREDAO = 1115,
+  BEVM = 11503,
+  MERLIN = 686868,  
+}
+
+const coverContractAddress = [
+  "0xEbC11e13375DEc4c43118b8f530b0dc31fF9e4a7",   //CoreDao
+  "0x9552c86e01B431066AddE3096DFB482CbD82A185", //BEVM
+  "0x180e565b81422e9F38e8e852Cd7CA3CD50AB8777",   //Merlin address
+]
 
 export async function connectWallet() {
   if (!window.ethereum) {
@@ -21,10 +31,10 @@ export async function connectWallet() {
   }
 }
 
-export async function getCoverInfo(id: number) {
+export async function getCoverInfo(id: number, address: string) {
   const signer = await connectWallet();
   const coverContract = new ethers.Contract(
-    COVER_CONTRACT_ADDRESS,
+    address as `0x${string}`,
     InsuranceAbi,
     signer
   );
@@ -44,24 +54,28 @@ export async function getCoverInfo(id: number) {
   };
 }
 
-export async function purchaseCover(id: number, value: number, period: number): Promise<string> {
+export async function purchaseCover(id: number, value: number, period: number, address: string): Promise<string> {
   const signer = await connectWallet();
   const coverContract = new ethers.Contract(
-    COVER_CONTRACT_ADDRESS,
+    address as `0x${string}`,
     InsuranceAbi,
     signer
   );
-  const { weiValue: fee } = await calculateCoverFee(id, value, period);
+  const { weiValue: fee } = await calculateCoverFee(id, value, period, address);
   console.log(fee);
   const coverValue = ethers.parseEther(value.toString());
-  const tx = await coverContract.purchaseCover(id, coverValue, period, fee);
-  const receipt = await tx.wait();
-  return receipt.hash;
+  try {
+    const tx = await coverContract.purchaseCover(id, coverValue, period, fee);
+    const receipt = await tx.wait();
+    return receipt.hash;  
+  } catch (error) {
+    throw error;
+  }
 }
 
-export async function calculateCoverFee(id: number, coverValue: number, period: number) {
+export async function calculateCoverFee(id: number, coverValue: number, period: number, address: string) {
   try {
-    const coverInfo = await getCoverInfo(id);
+    const coverInfo = await getCoverInfo(id, address);
 
     if (!coverInfo || !coverInfo.cost) {
       throw new Error("Invalid cover info or cost");
@@ -76,5 +90,18 @@ export async function calculateCoverFee(id: number, coverValue: number, period: 
   } catch (error) {
     console.error("Error calculating cover fee:", error);
     throw error;
+  }
+}
+
+export const getCoverAddressByNetwork = (network: CustomNetworks): string => {
+  switch (network) {
+    case CustomNetworks.COREDAO:
+      return coverContractAddress[0];
+    case CustomNetworks.BEVM:
+      return coverContractAddress[1];
+    case CustomNetworks.MERLIN:
+      return coverContractAddress[2];
+    default:
+      return '';
   }
 }

@@ -1,4 +1,5 @@
 import { getCoverInfo, purchaseCover, calculateCoverFee } from "../utils/util";
+import { getCoverAddressByNetwork } from "../utils/util";
 
 export class CoverClientConfig {
   protocolName: string;
@@ -15,20 +16,26 @@ export class CoverClientConfig {
     );
   }
 
-  async coverInfo(): Promise<any> {
-    return await getCoverInfo(this.coverId);
+  async coverInfo(coverAddress: string): Promise<any> {
+    return await getCoverInfo(this.coverId, coverAddress);
   }
 
-  async userPurchaseCover(coverValue: number, coverPeriod: number): Promise<string> {
-    return await purchaseCover(this.coverId, coverValue, coverPeriod);
+  async userPurchaseCover(coverValue: number, coverPeriod: number, coverAddress: string): Promise<string> {
+    return await purchaseCover(this.coverId, coverValue, coverPeriod, coverAddress);
   }
 
-  async calculateUserCoverFee(coverValue: number, coverPeriod: number) {
+  async calculateUserCoverFee(coverValue: number, coverPeriod: number, coverAddress: string) {
     const { numericFee } = await calculateCoverFee(
       this.coverId,
       coverValue,
-      coverPeriod
+      coverPeriod,
+      coverAddress
     );
     return numericFee;
   }
+
+  getCoverAddress(networkId: number) {
+    return getCoverAddressByNetwork(networkId);  
+  }
+  
 }

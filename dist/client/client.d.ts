@@ -3,7 +3,8 @@ export declare class CoverClientConfig {
     coverId: number;
     constructor(protocolName: string, coverId: number);
     displayConfig(): void;
-    coverInfo(): Promise<any>;
-    userPurchaseCover(coverValue: number, coverPeriod: number): Promise<string>;
-    calculateUserCoverFee(coverValue: any, coverPeriod: any): Promise<number>;
+    coverInfo(coverAddress: string): Promise<any>;
+    userPurchaseCover(coverValue: number, coverPeriod: number, coverAddress: string): Promise<string>;
+    calculateUserCoverFee(coverValue: number, coverPeriod: number, coverAddress: string): Promise<number>;
+    getCoverAddress(networkId: number): string;
 }
